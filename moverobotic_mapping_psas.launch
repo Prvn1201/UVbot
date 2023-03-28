@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<launch>
+	<arg name="rviz_config" default="$(find moverobotic_psas)/rviz/moverobotic_mapping_psas.rviz"/>
+	<arg name="perspective_config" default="$(find moverobotic_psas)/perspective/moverobotic_mapping_psas.perspective"/>
+	<arg name="odometry_config" default="$(find moverobotic_psas)/yaml/moverobotic_odometry_psas.yaml"/>
+	<arg name="movebase_config" default="$(find moverobotic_psas)/yaml/moverobotic_movebase_psas.yaml"/>
+	<arg name="global_planner_config" default="$(find moverobotic_psas)/yaml/moverobotic_global_planner_psas.yaml"/>
+	<arg name="local_planner_config" default="$(find moverobotic_psas)/yaml/moverobotic_local_planner_psas.yaml"/>
+	<arg name="global_costmap_config" default="$(find moverobotic_psas)/yaml/moverobotic_global_costmap_psas.yaml"/>
+	<arg name="local_costmap_config" default="$(find moverobotic_psas)/yaml/moverobotic_local_costmap_psas.yaml"/>
+	<arg name="gmapping_config" default="$(find moverobotic_psas)/yaml/moverobotic_gmapping_psas.yaml"/>
+
+	<rosparam command="load" file="$(arg odometry_config)" />
+
+	<include file="$(find moverobotic_psas)/launch/moverobotic_hardware_psas.launch">
+		<arg name="rviz_config" value="$(arg rviz_config)"/>
+		<arg name="perspective_config" default="$(arg perspective_config)"/>
+	</include>
+
+	<node name="odometry_node" pkg="robot_localization" type="ekf_localization_node" respawn="true">
+		<rosparam file="$(arg odometry_config)" command="load" />
+		<remap from="set_pose" to="initialpose/ekf"/>
+	</node>
+
+	<node name="movebase_node" pkg="move_base" type="move_base" respawn="true" output="screen">
+		## MoveBase
+		<rosparam file="$(arg movebase_config)" command="load" />
+
+		## Planners
+		<rosparam file="$(arg global_planner_config)" command="load" />
+		<rosparam file="$(arg local_planner_config)" command="load" />
+
+		## Costmaps
+		<rosparam file="$(arg global_costmap_config)" command="load" />
+		<rosparam file="$(arg local_costmap_config)" command="load" />
+
+		<remap from="odom" to="odometry/filtered"/>
+		<remap from="cmd_vel" to="movebase/cmd_vel"/>
+	</node>
+
+	<node name="gmapping_node" pkg="gmapping" type="slam_gmapping" respawn="true" output="screen" launch-prefix="bash -c 'sleep 2; $0 $@'">
+		<rosparam file="$(arg gmapping_config)" command="load" />
+		<remap from="scan" to="scan_filter/scan"/>
+	</node>
+	
+</launch>

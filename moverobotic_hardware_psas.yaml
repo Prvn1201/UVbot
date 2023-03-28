@@ -1,0 +1,229 @@
+psas_robot_node:
+  heartbeat_cmd_vel: 5
+  heartbeat_drive: 1
+  heartbeat_steer: 1
+
+  steer_length: 0.142
+  steer_rack: 0.11
+
+  wheel_base: 0.852
+  wheel_radius: 0.1750704
+
+  linX_max: 2.0
+  linX_min: -2.0
+  linX_accel: 0.5 #1.0
+  linX_decel: 0.5 #1.0
+
+  angZ_max: 1.0
+  angZ_min: -1.0
+  angZ_accel: 0.3 #0.5
+  angZ_decel: 0.3 #0.5
+
+joy_node:
+  dev: /dev/input/by-id/usb-Logitech_Wireless_Gamepad_F710_6789924C-joystick
+  deadzone: 0.01 # deadzone joystick
+  autorepeat_rate: 20 # publish rate (Hz)
+
+teleop_node:
+  axis_linear: 1 # linear X button map
+  scale_linear: 0.5 # linear X scale
+  scale_linear_turbo: 2.0 # linear X turbo scale
+  axis_angular: 3 # angular Z button map
+  scale_angular: 1.0 # angular Z scale
+  enable_button: 4 # enable button map
+  enable_turbo_button: 5 # turbo button map
+
+twist_mux_node:
+  topics:
+  - name    : joy
+    topic   : teleop/cmd_vel
+    timeout : 0.5
+    priority: 10
+  - name    : interactive_marker
+    topic   : twist_marker_server/cmd_vel
+    timeout : 0.5
+    priority: 8
+  - name    : movebase
+    topic   : movebase/cmd_vel
+    timeout : 0.5
+    priority: 1
+  locks:
+  - name    : e_stop
+    topic   : e_stop
+    timeout : 0.0
+    priority: 255
+
+mrc01_node:
+  serial_port: /dev/serial/by-id/usb-LeafLabs_Maple-if00
+  heartbeat: 1000
+
+  cmd_max0: 100.0
+  cmd_min0: -100.0
+  cmd_accel0: 150.0
+  cmd_decel0: 150.0
+  cmd_max1: 0.0
+  cmd_min1: -0.0
+  cmd_accel1: 0.0
+  cmd_decel1: 0.0
+
+  ana_absolute_max0: 4.75 #4.75
+  ana_absolute_min0: 0.25 #0.25
+  ana_range_max0: 4.2978559
+  ana_range_min0: 0.7028419
+  ana_n0: 15
+  ana_dir0: true
+  ana_absolute_max1: 4.5
+  ana_absolute_min1: 0.5
+  ana_range_max1: 4.0
+  ana_range_min1: 1.0
+  ana_n1: 100
+  ana_dir1: false
+
+  encoder_n0: 100
+  encoder_cpr0: 1
+  encoder_dir0: false
+  encoder_n1: 100
+  encoder_cpr1: 1
+  encoder_dir1: false
+
+  pid_p0: 5.0
+  pid_i0: 0.0
+  pid_d0: 0.02
+  pid_j0: 0.01
+  pid_n0: 15.0
+  pid_p1: 0.0
+  pid_i1: 0.0
+  pid_d1: 0.0
+  pid_j1: 0.0
+  pid_n1: 100.0
+
+  wheel_radius: 0.0
+  wheel_track: 0.0
+  wheel_base: 0.0
+  min_turn_radius: 0.0
+  feed_select0: 2
+  feed_select1: 0
+  motor_dir0: true
+  motor_dir1: false
+
+  imu_frame_id: imu_link
+  accel_bias_X: 0.0
+  accel_bias_Y: 0.0
+  accel_bias_Z: 0.0
+  accel_inv_00: 1.0
+  accel_inv_11: 1.0
+  accel_inv_22: 1.0
+  accel_inv_01: 0.0
+  accel_inv_02: 0.0
+  accel_inv_12: 0.0
+
+  gyro_bias_X: 0.0287625
+  gyro_bias_Y: 0.0298278
+  gyro_bias_Z: 0.0308931
+  limit_rms_accel: 0.05
+  limit_rms_gyro: 0.003
+
+  mag_bias_X: 0.0
+  mag_bias_Y: 0.0
+  mag_bias_Z: 0.0
+  mag_inv_00: 1.0
+  mag_inv_11: 1.0
+  mag_inv_22: 1.0
+  mag_inv_01: 0.0
+  mag_inv_02: 0.0
+  mag_inv_12: 0.0
+
+  voltage_n: 15
+  current_n: 15
+
+mbl1330_node:
+  serial_port: /dev/serial/by-id/usb-Roboteq_Motor_Controller_MBL1XXX-if00
+  heartbeat: 1
+
+  pid_i: 150 #250
+  pid_p: 100
+  pid_d: 5 #30
+  pid_j: 0.0
+  pid_n: 7.0 #5.0
+
+  cmd_max: 20.0
+  cmd_min: -20.0
+  cmd_accel: 20.0
+  cmd_decel: 20.0
+
+  hall_cpr: 200
+  hall_n: 7 #5
+
+  hall_dir: true
+  motor_dir: false
+
+rslidar_scan_node:
+  max_height: 0.1
+  min_height: -1.0
+  angle_max: 3.14159
+  angle_min: -3.14159
+  angle_increment: 0.00314159272239
+  scan_time: 0.0
+  range_max: 100.0
+  range_min: 0.0
+  target_frame: laser_rslidar
+  concurrency_level: 0
+  use_inf: true
+
+lslidar_n301_driver_node:
+  device_ip: 192.168.0.12
+  device_port: 2368
+
+lslidar_n301_decoder_node:
+  child_frame_id: laser_leishen
+  point_num: 2000
+  skip_num: 0
+  invalid_radius: 0.0
+  angle_disable_min: 0
+  angle_disable_max: 0
+  min_range: 0.0
+  max_range: 100.0
+  frequency: 10.0
+  publish_point_cloud: false
+
+lslidar_n301_pointcloud_node:
+  destination_frame: laser_leishen
+  cloud_destination_topic: lslidar_ira/cloud
+  scan_destination_topic: lslidar_ira/scan
+  laserscan_topics: /lslidar/scan
+  angle_min: -3.14259265359
+  angle_max: 3.14259265359
+  #angle_increment: 0.0058
+  #time_increment: 1.73611151695e-05
+  #scan_time: 0.0250000003725
+  range_min: 0.00
+  range_max: 100.0
+
+scan_merge_node:
+  destination_frame: laser_leishen
+  cloud_destination_topic: scan_merge/cloud
+  scan_destination_topic: scan_merge/scan
+  laserscan_topics: /lslidar_ira/scan /rslidar/scan
+  angle_min: -3.14259265359
+  angle_max: 3.14259265359
+  angle_increment: 0.00314159272239
+  #time_increment: 1.73611151695e-05
+  #scan_time: 0.0250000003725
+  range_min: 0.00
+  range_max: 100.0
+
+scan_filter:
+  scan_filter_chain:
+    - name: box
+      type: laser_filters/LaserScanBoxFilter
+      params:
+        box_frame: laser_leishen
+        min_x: -1.0
+        max_x: 0.05
+        min_y: -0.35
+        max_y: 0.35
+        min_z: -1.0
+        max_z: 1.0
+
+robot_state_publisher_node:
+  publish_frequency: 50.0
