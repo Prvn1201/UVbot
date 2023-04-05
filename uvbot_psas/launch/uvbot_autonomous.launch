@@ -1,0 +1,2 @@
+<launch>
+	<arg name="odometry_config" default="$"
