@@ -1,4 +1,0 @@
-<launch>
-  <node name="uvbot_motor" pkg="uvbot_motor" type="zlac8015d_node.py" output="screen">
-  </node>
-</launch>
