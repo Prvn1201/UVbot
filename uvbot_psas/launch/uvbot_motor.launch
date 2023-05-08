@@ -1,7 +1,0 @@
-<launch>
-  <node name="uvbot_psas" pkg="uvbot_psas" type="zlac8015d_node.py">
-  </node>
-
-<include file="$(find teleop_twist_joy)/launch/teleop.launch"/>
-
-</launch>
