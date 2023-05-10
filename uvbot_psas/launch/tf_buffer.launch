@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-	<node name="tf_buffer" pkg="tf_buffer" type="tfbuffer.py">
-  </node>
-</launch>
