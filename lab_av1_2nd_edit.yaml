@@ -1,7 +1,0 @@
-image: /home/psas/catkin_ws/src/moverobotic_psas/maps/lab_av1_2nd_edit.pgm
-resolution: 0.050000
-origin: [-200.000000, -200.000000, 0.000000]
-negate: 0
-occupied_thresh: 0.65
-free_thresh: 0.196
-
