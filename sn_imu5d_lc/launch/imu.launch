@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node name="sn_imu5d_lc" pkg="sn_imu5d_lc" type="5dof_imu.py">
+  </node>
+
+</launch>
