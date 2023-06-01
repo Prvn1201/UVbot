@@ -1,0 +1,50 @@
+DWAPlannerROS:
+  # Robot Configuration Parameters
+  max_vel_x: 0.75               # Maximum linear velocity
+  min_vel_x: 0.0                # Minimum linear velocity
+  max_vel_theta: 1.0            # Maximum angular velocity
+  min_vel_theta: -1.0           # Minimum angular velocity
+  acc_lim_x: 2.5                # Maximum linear acceleration
+  acc_lim_theta: 3.2            # Maximum angular acceleration
+  decel_lim_x: 1.0              # Maximum linear deceleration
+  decel_lim_theta: 3.2          # Maximum angular deceleration
+  sim_time: 1.5                 # Simulation time to compute velocities ahead
+  vx_samples: 6                 # Number of linear velocity samples
+  vtheta_samples: 20            # Number of angular velocity samples
+  path_distance_bias: 32.0      # Weight for the path distance term
+  goal_distance_bias: 24.0      # Weight for the goal distance term
+  occdist_scale: 0.01           # Weight for the obstacle distance term
+  forward_point_distance: 0.325 # Distance between the point from where to compute the distance to the path and the robot
+  stop_time_buffer: 0.2         # Buffer time to avoid collisions when stopping
+  oscillation_reset_dist: 0.05  # Distance threshold for oscillation reset
+  escape_reset_dist: 0.1        # Distance threshold for escape reset
+  escape_reset_theta: 0.1       # Angular threshold for escape reset
+
+  # Goal Tolerance
+  xy_goal_tolerance: 0.2       # Tolerance for reaching the goal in the x-y plane
+  yaw_goal_tolerance: 0.2      # Tolerance for reaching the goal in terms of yaw (orientation)
+  latch_xy_goal_tolerance: false  # If true, the robot must reach the goal within the specified xy_goal_tolerance for the planner to succeed
+
+  # Obstacle Cost Parameters
+  obstacle_weight: 50.0            # Weight for the obstacle cost term
+  inflation_radius: 0.4           # Inflation radius around obstacles
+
+  # Trajectory Scoring Parameters
+  heading_lookahead: 0.325      # Lookahead distance for computing the heading score
+  heading_scoring: true         # If true, score trajectories based on the robot's heading
+  heading_scoring_timestep: 0.8 # Timestep between heading scoring calculations
+  meter_scoring: true           # If true, score trajectories based on the distance traveled
+  path_distance_scoring: true   # If true, score trajectories based on the distance to the path
+
+  # Oscillation Prevention Parameters
+  oscillation_reset_dist: 0.05  # Distance threshold for considering the robot is oscillating
+  escape_reset_dist: 0.1        # Distance threshold for escaping from current oscillation
+  escape_reset_theta: 0.1       # Angular threshold for escaping from current oscillation
+  escape_reset_reset_time: 0.1  # Time threshold for resetting escape orientation
+
+  # Visualization Parameters
+  publish_traj_pc: true        # Publish the trajectory points as markers
+  publish_cost_grid_pc: true   # Publish the cost grid as markers
+  global_frame_id: "map"       # Global frame ID for visualization markers
+  odom_topic: "odom"
+

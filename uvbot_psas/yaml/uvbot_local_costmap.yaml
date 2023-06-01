@@ -1,0 +1,79 @@
+local_costmap:
+  plugins:
+    - {name: static_layer,    type: "costmap_2d::StaticLayer" }
+    - {name: obstacle_layer,  type: "costmap_2d::ObstacleLayer"}
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer" }
+  
+  global_frame: odom
+  robot_base_frame: base_footprint
+  transform_tolerance: 0.2
+  update_frequency: 2.0
+  publish_frequency: 2.0
+  rolling_window: true
+  always_send_full_costmap: true
+  width: 30
+  height: 30
+  resolution: 0.05
+  origin_x: 0.0
+  origin_y: 0.0
+
+  footprint: [[-0.25, -0.25], [-0.25, 0.25], [0.25, 0.25], [0.25, -0.25]]
+  footprint_padding: 0.03
+
+  static_layer:
+    unknown_cost_value: -1
+    lethal_cost_threshold: 100
+    map_topic: map
+    first_map_only: false
+    subscribe_to_updates: false
+    track_unknown_space: true
+    use_maximum: false
+    trinary_costmap: true
+
+  obstacle_layer:
+    observation_sources: oslidar scan_filter
+    scan_filter:
+      topic: /ouster/points
+      sensor_frame: ""
+      observation_persistence: 0.0
+      expected_update_rate: 0.2
+      data_type: PointCloud2
+      clearing: true
+      marking: true
+      max_obstacle_height: 2.0
+      min_obstacle_height: 0.0
+      obstacle_range: 25.0
+      raytrace_range: 30.0
+      inf_is_valid: false
+    os_lidar:
+      topic: /ouster/points
+      sensor_frame: ""
+      observation_persistence: 0.0
+      expected_update_rate: 0.2
+      data_type: PointCloud2
+      clearing: true
+      marking: true
+      max_obstacle_height: 1.0
+      min_obstacle_height: 0.3
+      obstacle_range: 25.0
+      raytrace_range: 30.0
+      inf_is_valid: false
+    max_obstacle_height: 0.5
+    obstacle_range: 3.0
+    raytrace_range: 3.5
+    track_unknown_space: true
+    combination_method: 1
+
+  inflation_layer:
+    inflation_radius: 0.715891
+    cost_scaling_factor: 10.0
+
+    ##Global Obstacle/Voxel Plugin Parameters
+    footprint_clearing_enabled: true
+
+
+  ###Inflation layer
+  ##Parameters
+  inflation_layer: #Inflation is the process of propagating cost values out from occupied cells that decrease with distance.
+    inflation_radius: 0.715891 #0.55, The radius in meters to which the map inflates obstacle cost values.
+    cost_scaling_factor: 10.0 #10.0, A scaling factor to apply to cost values during inflation. The cost function is computed as follows for all cells in the costmap further than the inscribed radius distance and closer than the inflation radius distance away from an actual obstacle: exp(-1.0 * cost_scaling_factor * (distance_from_obstacle - inscribed_radius)) * (costmap_2d::INSCRIBED_INFLATED_OBSTACLE - 1), where costmap_2d::INSCRIBED_INFLATED_OBSTACLE is currently 254. NOTE: since the cost_scaling_factor is multiplied by a negative in the formula, increasing the factor will decrease the resulting cost values.

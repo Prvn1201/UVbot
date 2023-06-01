@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+	<node name="mpu_6050" pkg="mpu_6050_driver" type="imu_node.py">
+  </node>
+
+    <!--<node name="tf_buffer" pkg="tf_buffer" type="tfbuffer.py">
+  </node>-->
+
+    <!--<node name="tf" pkg="mpu_6050_driver" type="tf_broadcaster_imu.py">
+  </node>-->
+
+</launch>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Arguments -->
+  <arg name="map_file" default="$(find uvbot_psas)/map/map.yaml"/>
+  <arg name="move_forward_only" default="false"/>
+
+  <!-- Hardware Launch -->
+  <include file="$(find uvbot_psas)/launch/uvbot_hardware.launch">
+  </include>
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
+
+  <!-- AMCL -->
+  <include file="$(find uvbot_psas)/launch/amcl.launch"/>
+
+  <!-- move_base -->
+  <include file="$(find uvbot_psas)/launch/move_base.launch">
+    <arg name="move_forward_only" value="$(arg move_forward_only)"/>
+  </include>
+
+</launch>

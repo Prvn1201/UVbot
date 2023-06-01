@@ -1,0 +1,42 @@
+###GlobalPlanner
+##Published Topics
+# ~<name>/plan (nav_msgs/Path) #The last plan computed, published every time the planner computes a new path, and used primarily for visualization purposes.
+
+##Parameters
+GlobalPlanner: #This package provides an implementation of a fast, interpolated global planner for navigation.
+  orientation_mode: 0 #None=0 (No orientations added except goal orientation), Forward=1 (Positive x axis points along path, except for the goal orientation), Interpolate=2 (Orientations are a linear blend of start and goal pose), ForwardThenInterpolate=3 (Forward orientation until last straightaway, then a linear blend until the goal pose), Backward=4 (Negative x axis points along the path, except for the goal orientation), Leftward=5 (Positive y axis points along the path, except for the goal orientation), Rightward=6 (Negative y axis points along the path, except for the goal orientation)
+  allow_unknown: false #true, Specifies whether or not to allow the planner to create plans that traverse unknown space. NOTE: if you are using a layered costmap_2d costmap with a voxel or obstacle layer, you must also set the track_unknown_space param for that layer to be true, or it will convert all your unknown space to free space (which planner will then happily go right through).
+  default_tolerance: 0.0 #0.0, A tolerance on the goal point for the planner. The planner will attempt to create a plan that is as close to the specified goal as possible but no further than default_tolerance away.
+  visualize_potential: true #false, Specifies whether or not to visualize the potential area computed via a PointCloud2.
+  use_dijkstra: true #true, If true, use dijkstra's algorithm.
+  use_quadratic: true #true, If true, use the quadratic approximation of the potential. Otherwise, use a simpler calculation.
+  use_grid_path: false #false, If true, create a path that follows the grid boundaries. Otherwise, use a gradient descent method.
+  old_navfn_behavior: false #If for some reason, you want global_planner to exactly mirror the behavior of navfn, set this to true (and use the defaults for the other boolean parameters)
+  lethal_cost: 253 #253, Lethal Cost (dynamic reconfigure)
+  neutral_cost: 50 #50, Neutral Cost (dynamic reconfigure)
+  cost_factor: 3.0 #3.0, Factor to multiply each cost from costmap by (dynamic reconfigure)
+  publish_potential: true #true, Publish Potential Costmap (dynamic reconfigure)
+  orientation_window_size: 1 #1, What window to use to determine the orientation based on the position derivative specified by the orientation mode (dynamic reconfigure)
+  outline_map: false #true, Outlines the global costmap with lethal obstacles. For the usage of a non static (rolling window) global costmap this needs to be set to false
+
+
+###NavfnROS
+##Published Topics
+# ~<name>/plan (nav_msgs/Path) #The last plan computed, published every time the planner computes a new path, and used primarily for visualization purposes.
+
+##Parameters
+NavfnROS: #This package provides an implementation of a fast, interpolated navigation function used to create plans for a mobile base
+  allow_unknown: true #true, Specifies whether or not to allow navfn to create plans that traverse unknown space. NOTE: if you are using a layered costmap_2d costmap with a voxel or obstacle layer, you must also set the track_unknown_space param for that layer to be true, or it will convert all your unknown space to free space (which navfn will then happily go right through).
+  planner_window_x: 10.0 #0.0, Specifies the x size of an optional window to restrict the planner to. This can be useful for restricting NavFn to work in a small window of a large costmap.
+  planner_window_y: 10.0 #0.0, Specifies the y size of an optional window to restrict the planner to. This can be useful for restricting NavFn to work in a small window of a large costmap.
+  default_tolerance: 0.0 #0.0, A tolerance on the goal point for the planner. NavFn will attempt to create a plan that is as close to the specified goal as possible but no further than default_tolerance away.
+  visualize_potential: true #false, Specifies whether or not to visualize the potential area computed by navfn via a PointCloud2.
+
+
+###CarrotPlanner
+##Parameters
+CarrotPlanner: #This planner attempts to find a legal place to put a carrot for the robot to follow. It does this by moving back along the vector between the robot and the goal point.
+ step_size: 0.05 #0.05, The size steps to take backward in meters along the vector between the robot and the user-specified goal point when attempting to find a valid goal for the local planner. 
+ min_dist_from_robot: 0.1 #0.1, The minimum distance from the robot in meters at which a goal point will be sent to the local planner. 
+
+

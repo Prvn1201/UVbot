@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<launch>
+ <!--Arguments-->
+ <arg name="hardware_config" default="$(find uvbot_psas)/yaml/uvbot_hardware.yaml"/>
+ <arg name="odometry_config" default="$(find uvbot_psas)/yaml/uvbot_odometry.yaml"/>
+ <arg name="rviz_config" default="$(find uvbot_psas)/rviz/uvbot_mapping.rviz"/>
+ 
+ <!--Params-->
+ <rosparam command="load" file="$(arg hardware_config)" />
+ <rosparam command="load" file="$(arg odometry_config)"/>
+
+<!--Odom-->
+ <node name="odometry_node" pkg="robot_localization" type="ekf_localization_node" respawn="true">
+   <rosparam file="$(arg odometry_config)" command="load"/>
+   <remap from="set_pose" to="initialpose"/>
+ </node>
+
+<!--Poincloud to Laserscan-->
+ <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+    <remap from="cloud_in" to="/ouster/points"/>
+    <remap from="scan" to="/scan_filter/scan" />
+  </node>
+
+<!--ZLAC8015D Motor-->
+  <node name="uvbot_psas" pkg="uvbot_psas" type="zlac8015d_node.py">
+   </node>
+
+<!--MPU6050 IMU-->
+  <include file="$(find uvbot_psas)/launch/imu_data.launch"/>
+  <!--<include file="$(find sn_imu5d_lc)/launch/imu.launch"/>-->
+  
+<!--Controller JOYSTICK-->
+  <include file="$(find teleop_twist_joy)/launch/teleop.launch"/>
+  
+<!--OUSTER OS-1 LiDAR-->
+  <include file="$(find ouster_ros)/launch/sensor.launch"/>
+  
+<!--URDF UVBOT-->
+  <include file="$(find robotuv)/launch/display.launch"/>
+  
+<!--Configuration (RVIZ)-->
+  <include file="$(find uvbot_psas)/launch/uvbot_config.launch">
+    <arg name="rviz_config" value="$rviz_config"/>
+  </include> 
+
+</launch>

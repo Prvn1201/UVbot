@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<launch>
+	<arg name="rviz_config" default="$(find uvbot_psas)/rviz/uvbot_autonomous_psas.rviz"/>
+
+	<arg name="odometry_config" default="$(find uvbot_psas)/yaml/uvbot_odometry.yaml"/>
+	<arg name="movebase_config" default="$(find uvbot_psas)/yaml/uvbot_movebase.yaml"/>
+	<arg name="global_planner_config" default="$(find uvbot_psas)/yaml/uvbot_global_planner.yaml"/>
+	<arg name="local_planner_config" default="$(find uvbot_psas)/yaml/uvbot_local_planner.yaml"/>
+	<arg name="global_costmap_config" default="$(find uvbot_psas)/yaml/uvbot_global_costmap.yaml"/>
+	<arg name="local_costmap_config" default="$(find uvbot_psas)/yaml/uvbot_local_costmap.yaml"/>
+	<arg name="amcl_config" default="$(find uvbot_psas)/yaml/uvbot_amcl.yaml"/>
+	<arg name="load_state_filename" default="$(find uvbot_psas)/map/123.yaml"/>
+
+	<rosparam command="load" file="$(arg odometry_config)" />
+
+	<node name="odometry_node" pkg="robot_localization" type="ekf_localization_node" respawn="true">
+		<rosparam file="$(arg odometry_config)" command="load" />
+		<remap from="set_pose" to="initialpose/ekf"/>
+	</node>
+
+	<node name="movebase_node" pkg="move_base" type="move_base" respawn="true" output="screen">
+		## MoveBase
+		<rosparam file="$(arg movebase_config)" command="load" />
+
+		## Planners
+		<rosparam file="$(arg global_planner_config)" command="load" />
+		<rosparam file="$(arg local_planner_config)" command="load" />
+
+		## Costmaps
+		<rosparam file="$(arg global_costmap_config)" command="load" />
+		<rosparam file="$(arg local_costmap_config)" command="load" />
+
+		<remap from="odom" to="odometry/filtered"/>
+		<remap from="cmd_vel" to="movebase/cmd_vel"/>
+		<remap from="move_base_simple/goal" to="goal"/>
+	</node>
+
+	<node name="amcl_node" pkg="amcl" type="amcl">
+		<rosparam file="$(arg amcl_config)" command="load" />
+		<remap from="scan" to="scan_filter/scan"/>
+	</node>
+    
+    <node name="mission_navigation" pkg="uvbot_mission" type="map_navigation_node" output="screen">
+	</node>
+
+	<node name="map_server_node" pkg="map_server" type="map_server" args="$(arg load_state_filename)" />
+
+	<node name="simple_navigation_node" pkg="uvbot_simple_navigation" type="uvbot_simple_navigation" output="screen" respawn="true">
+		<param name="base_frame_id" value="base_link"/>
+		<param name="map_frame_id" value="map"/>
+		<param name="home_coordinate" value="-0.004845 0.001765 0.000000 0.000000 0.000000 0.001900 0.999998"/>
+		<param name="home_button" value="2"/>
+	</node>
+	
+</launch>
