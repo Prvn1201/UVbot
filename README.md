@@ -1,24 +1,21 @@
 # UVBOT (An Autonomous UV disinsfection Robot)
 
-Ubuntu 20.04 LTS - python 3.8.10
-Installation of ROS Noetic is needed 
-
+This repository contains the codebase and necessary information to build an Autonomous UV Disinfection Robot. The robot utilizes various hardware components and software libraries to achieve autonomous navigation and UV disinfection capabilities.
 
 --Pravin--
-# Autonomous UV Disinfection Robot
-
-This repository contains the codebase and necessary information to build an Autonomous UV Disinfection Robot. The robot utilizes various hardware components and software libraries to achieve autonomous navigation and UV disinfection capabilities.
 
 ## Hardware Components
 
 - NVIDIA Jetson Nano
-- ZLAC8015D Motor
-- Ouster Lidar OS Lidar 16
+- Dual-Channel Servo Driver ZLAC8015D
+- Ouster LiDAR OS LiDAR 16
 - MPU6050 IMU
 
 ## Software Dependencies
 
+- Ubuntu 20.04 LTS
 - ROS 1 Neotic
+- Python 3.8.10
 
 ## Installation Instructions
 
@@ -30,7 +27,7 @@ This repository contains the codebase and necessary information to build an Auto
 2. **ZLAC8015D Motor Integration**
     - Connect and configure the ZLAC8015D Motor as per the provided datasheet.
 
-3. **Ouster Lidar OS Lidar 16**
+3. **Ouster LiDAR OS LiDAR 16**
     - Install necessary drivers and ROS packages for Ouster Lidar. Refer to the Ouster Lidar documentation.
 
 4. **MPU6050 IMU**
@@ -62,7 +59,7 @@ This repository contains the codebase and necessary information to build an Auto
     - Use ROS teleoperation nodes to manually control the robot for testing purposes.
 
 3. **Autonomous Navigation**
-    - Implement your navigation algorithms using ROS and sensor data (Lidar, IMU) for autonomous movement.
+    - Implement your navigation algorithms using ROS and sensor data (LiDAR, IMU) for autonomous movement.
 
 4. **UV Disinfection**
     - Integrate UV disinfection capabilities with appropriate safety measures and controls.
