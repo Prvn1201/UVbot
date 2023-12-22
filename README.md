@@ -1,6 +1,6 @@
 # UVBOT (An Autonomous UV disinsfection Robot)
 
-This repository contains the codebase and necessary information to build an Autonomous UV Disinfection Robot. The robot utilizes various hardware components and software libraries to achieve autonomous navigation and UV disinfection capabilities.
+This repository contains the codebase and necessary information to build an Autonomous UV Disinfection Robot. The robot utilizes various hardware components and software libraries to achieve prototype of autonomous navigation and UV disinfection capabilities.
 
 --Pravin--
 
@@ -43,7 +43,7 @@ sudo apt-get install ros-neotic-teb-local-planner
 2. **ZLAC8015D Motor Integration**
     - Connect and configure the ZLAC8015D Motor as per the provided datasheet.
 
-3. **Ouster LiDAR OS LiDAR 16**
+3. **Ouster OS-1 LiDAR**
     - Install necessary drivers and ROS packages for Ouster Lidar. Refer to the Ouster Lidar documentation.
 
 4. **MPU6050 IMU**
