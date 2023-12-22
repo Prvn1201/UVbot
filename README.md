@@ -8,8 +8,10 @@ This repository contains the codebase and necessary information to build an Auto
 
 - NVIDIA Jetson Nano
 - Dual-Channel Servo Driver ZLAC8015D
-- Ouster LiDAR OS LiDAR 16
-- MPU6050 IMU
+- ZLLG40ASM100 V1.0 Hub Servo Motor 
+- Ouster OS-1 LiDAR
+- MPU 6050 IMU
+- Wireless Controller 
 
 ## Software Dependencies
 
@@ -18,6 +20,20 @@ This repository contains the codebase and necessary information to build an Auto
 - Python 3.8.10
 
 ## Installation Instructions
+### Dependencies Installation :-
+
+```
+sudo apt-get install ros-neotic-base-local-local-planner
+```
+```
+sudo apt-get install ros-neotic-carrot-planner
+```
+```
+sudo apt-get install ros-neotic-dwa-local-planner
+```
+```
+sudo apt-get install ros-neotic-teb-local-planner
+```
 
 ### Hardware Setup
 
@@ -44,34 +60,31 @@ This repository contains the codebase and necessary information to build an Auto
 3. **Build and Compilation**
     - Navigate to the cloned repository and build the ROS workspace using `catkin_make`.
 
-4. **Configuration Files**
-    - Modify configuration files in the `config/` directory to suit your specific hardware setup.
+4. **Configuration Files (Parameters)**
+- Base_local_planner_params.yaml
+- Costmap_common_params.yaml
+- Dwa_local_planner.yaml
+- Global_costmap.yaml
+- Local_costmap.yaml
+- Move_base.yaml
+- AMCL (Adaptive Monte Carlo Localization)
+- UVbot hardware configure (twist mux node)
 
 ## Usage
 
 1. **Launching ROS Nodes**
-    - Launch the necessary ROS nodes using provided launch files.
+    - Make sure the Lidar is active for perform mapping.
     ```
-    roslaunch my_robot_navigation.launch
+    roslaunch uvbot_psas uvbot_hardware.launch
     ```
-
-2. **Teleoperation (Optional)**
-    - Use ROS teleoperation nodes to manually control the robot for testing purposes.
-
-3. **Autonomous Navigation**
-    - Implement your navigation algorithms using ROS and sensor data (LiDAR, IMU) for autonomous movement.
-
-4. **UV Disinfection**
-    - Integrate UV disinfection capabilities with appropriate safety measures and controls.
-
-## Contributing
-
-Contributions to enhance the project are welcome! Please fork the repository, make changes, and submit a pull request.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
-## Acknowledgments
-
-- Mention any contributors or libraries that you've used or that have inspired your project.
+    ```
+    roslaunch uvbot_psas uvbot_gmapping.launch
+    ```
+    - Save the map
+    ```
+    rosrun map_server map_saver -f map
+    ```
+    - Launch Autonomous Navigation 
+    ```
+    roslaunch uvbot_psas uvbot_navigation.launch
+    ```
